@@ -2,7 +2,7 @@
 　プラグイン『BalloonSelector』
 
 　作成者　　　　Don
-　一次配布元　　http://home.384.jp/evidence/
+　一次配布元　　http://nikolat.herokuapp.com/
 
 ■機能
 
@@ -70,3 +70,5 @@ Argument0　　バルーンを表示するページ番号(Zero Origin)
           	      	YAYAの多言語化によりShift_JIS / UTF-8以外にも多くの文字コードに対応可能に
 2011/02/07	Ver1.7	トランスレートを行うゴーストで意図しない文字列の置換が行われる
           	      	場合がある不具合の修正
+2021/10/23	Ver1.8	yaya.dll差し替え
+          	      	ネットワーク更新先の変更
