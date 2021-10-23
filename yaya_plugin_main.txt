@@ -1,0 +1,171 @@
+// ****使い方****
+// 
+// 関数名はイベント名そのままです。SHIORI/3.0テンプレートのように、
+// 文字列取得時頭にOn_がつくようなことはありません。
+// 
+// 値を返すとその内容をSakuraScriptとして実行します
+// 以下の変数に代入すると、動作を制御できます。
+//
+//   res_event , res_reference[0]...[n]
+//     指定したイベントをReferenceつきで発生します。referenceは省略可
+//
+//   res_target
+//     スクリプトやイベントをどのゴーストに送るかを指定します。
+//     Sakura名を指定してください。また、__SYSTEM_ALL_GHOST__で全起動中ゴーストに通知します。
+//     省略すると「プラグインメニューを実行したゴースト」に送ります
+//
+//   res_marker
+//     バルーンのマーカー(下に小さく出るステータス表示)に表示する文字を指定できます。
+//
+
+//-------------------------------------------------------
+// ゴーストからアクセスできるイベント
+OnMenuExec
+{
+	BalloonMenuIndex = 0
+	GetBalloonSize
+}
+
+OnBalloonSelectMenuOpen
+{
+	if ISINTSTR(TOSTR(reference[0])) {
+		if reference[0] >= 0 && ARRAYSIZE(PLUGINUTIL.installedballoon_path) > reference[0] * 9 {
+			BalloonMenuIndex = reference[0]
+			GetBalloonSize
+		}
+	}
+}
+
+//-------------------------------------------------------
+// ゴーストへ通知されるイベント
+PLUGINUTIL.BalloonMenuExec
+{
+	res_event        = 'OnBalloonSelectMenu'
+	res_reference[0] = _argv[0]
+	res_script_option = 'notranslate'
+	res_marker       = version
+
+	ShowBalloonView(_argv[0,2])
+}
+
+PLUGINUTIL.BalloonChangeExec
+{
+	res_event        = 'OnBalloonSelectExec'
+	res_reference[0] = _argv[0]
+
+	'\![change,balloon,' + _argv[0] + ']'
+}
+
+PLUGINUTIL.Menu_CANCEL
+{
+	res_event        = 'OnBalloonSelectCancel'
+
+	'\0\s[0]\e'
+}
+
+//-------------------------------------------------------
+// プロパティ取得・独自イベント関数
+GetBalloonSize
+{
+	'\b[2]\![get,property/
+		,OnPLUGINUTIL.GetBalloonSize/
+		,currentghost.balloon.scope(0).validwidth/
+		,currentghost.balloon.scope(0).validheight/
+	]'
+}
+
+OnPLUGINUTIL.GetBalloonSize
+{
+	PLUGINUTIL.BalloonMenuExec(BalloonMenuIndex,reference[0,1])
+	ERASEVAR('BalloonMenuIndex')
+}
+
+OnPLUGINUTIL.BalloonChange
+{
+	PLUGINUTIL.BalloonChangeExec(reference[0])
+}
+
+//-------------------------------------------------------
+// バルーンブレイクもフック
+OnBalloonBreak
+{
+	PLUGINUTIL.Menu_CANCEL
+}
+
+//-------------------------------------------------------
+// バルーン表示処理
+ShowBalloonView
+{
+	_page   = _argv[0]
+	_width  = _argv[1]; if _width  < 100 { _width  = 100 }
+	_height = _argv[2]; if _height < 100 { _height = 100 }//100以下とかあり得ない。
+
+	_ret    = ''
+	_max    = ARRAYSIZE(PLUGINUTIL.installedballoon_path)
+	_num    = (_page + 1) * 9
+	_start  = _page * 9
+	_ofs    = 25
+	if _max < _num {
+		_num = _max % 9
+	} else {
+		_num = 9
+	}
+	for _i = 0; _i < _num; _i++ {
+		_xi = _width / 3
+		_yi = _height / 4
+		_wi = _xi - (_width / 20)
+		_hi = _yi - (_height / 25)
+		_ti = _wi / 5
+		_x = (_i * _xi) % (3 * _xi)
+		_y = ((_i * 34) / 100) * _yi + _ofs
+		_tmp_path = PLUGINUTIL.installedballoon_path[_start + _i] + "\\balloons0.png"
+		_tmp_name = PLUGINUTIL.installedballoon_name[_start + _i]
+		_nameshow = PLUGINUTIL.MakeShortText(_tmp_name,_ti)
+		_ret += "\_l[%(_x),%(_y)]\__q[OnPLUGINUTIL.BalloonChange,%(_tmp_name)]/
+			\_b[%(_tmp_path),inline,--clipping=0 0 %(_wi) %(_hi)]\__q"
+		_ret += "\_l[%(_x),%(_y + _hi)]\f[height,-2]%(_nameshow)\f[height,default]"
+	}
+	_tmp = 3 * (_height / 4) - (_height / 25) + _ofs
+	_ret += "\_l[0,%(_tmp)]\n[20]"
+	_s = 0
+	_n = (_max - 1) / 9 + 1
+	if _n > 30 {
+		_s = _page / 10 * 10 - 10; if _s < 0 { _s = 0 }
+		if _n > _s + 30 { _n = _s + 30 }
+		if _n - _s < 20 { _s -= 10 }
+	}
+	for _i = _s; _i < _n; _i++ {
+		_x = (_i % 10) * (_width / 10)
+		if _x == 0 {
+			_ret += "\n"
+		}
+		if _i == _page {
+			_ret += "\_l[%(_x),]{%(PLUGINUTIL.FillSpace(_i + 1))}"
+		} else {
+			_ret += "\_l[%(_x),]\__q[OnBalloonSelectMenuOpen,%(_i)]<%(PLUGINUTIL.FillSpace(_i + 1))>\__q"
+		}
+	}
+	if _page > 0 {
+		_x = _width - 150; if _x < 0 { _x = 0 }
+		_y = 0
+		_ret += PLUGINUTIL.BottunPageBack(_x,_y,"OnBalloonSelectMenuOpen,%(_page - 1)")
+	}
+	if _max > (_page + 1) * 9 {
+		_x = _width - 120; if _x  < 30 { _x = 30 }
+		_y = 0
+		_ret += PLUGINUTIL.BottunPageNext(_x,_y,"OnBalloonSelectMenuOpen,%(_page + 1)")
+	}
+	_ret += PLUGINUTIL.BottunClose(_width - 35,0,'PLUGINUTIL.Menu_CANCEL')
+	_ret += '\_l[10,5]\f[height,-2]\f[color,70,70,70]/
+		page - ' + PLUGINUTIL.FillSpace(_page + 1) + '\f[color,default]\f[height,default]'
+	_ret = '\![set,balloontimeout,0]\![set,autoscroll,disable]\0\s[0]\b[2]\_n\_q' + _ret + '\_q\_n\e'
+
+	_ret
+}
+
+//-------------------------------------------------------
+// バージョン
+version
+{
+	'BalloonSelector/1.7'
+}

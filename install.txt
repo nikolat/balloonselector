@@ -1,0 +1,4 @@
+charset,Shift_JIS
+type,plugin
+name,BalloonSelector
+directory,balloonselector

@@ -1,0 +1,9 @@
+charset,Shift_JIS
+type,plugin
+name,BalloonSelector
+craftman,Don
+filename,yaya.dll
+secondchangeinterval,0
+id,7e78ebb0-7c98-11dd-ad8b-0800200c9a66
+homeurl,http://home.384.jp/evidence/update/balloonselector/
+craftmanurl,http://home.384.jp/evidence/

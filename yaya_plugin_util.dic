@@ -1,0 +1,216 @@
+//------------------------------------------------------------------------------
+//  yaya_plugin_util.dic
+//------------------------------------------------------------------------------
+
+//-------------------------------------------------------
+OnChoiceSelect
+{
+	if ISFUNC(reference[0]) {
+		EVAL(reference[0])
+	}
+}
+
+//-------------------------------------------------------
+balloonpathlist
+{
+	PLUGINUTIL.installedballoon_name = IARRAY
+	PLUGINUTIL.installedballoon_path = IARRAY
+	foreach reference; _fullpath {
+		PLUGINUTIL.StructBalloonList(_fullpath)
+	}
+}
+
+//------------------------------------------------------------------------------
+//関数名：PLUGINUTIL.StructBalloonList
+//機能　：構築
+//------------------------------------------------------------------------------
+PLUGINUTIL.StructBalloonList
+{
+	// balloonディレクトリ配下のディレクトリを抽出
+	_filelist = FENUM(_argv[0])
+	_dirlist  = IARRAY
+	foreach _filelist; _file {
+		if '\' _in_ _file; _dirlist ,= _file
+	}
+	_dirnum = ARRAYSIZE(_dirlist)
+
+	// 取得開始位置と取得数を求める
+	StructBalloonList.Index = 0
+	_num                    = _dirnum
+
+	// リスト作成主処理
+	for _i = 0; _i < _num; _i++ {
+		// 取得位置の更新
+		StructBalloonList.Index++
+
+		// descript.txtから情報取得
+		_charset     = PLUGINUTIL.GetCharsetFromDescriptTxt(/
+						_argv[0] + _dirlist[StructBalloonList.Index])
+		if _charset == '' {
+			_charset = 'Shift_JIS'
+		}
+		_balloonname = PLUGINUTIL.GetBalloonNameFromDescriptTxt(/
+						_argv[0] + _dirlist[StructBalloonList.Index],_charset)
+
+		// リストへ追加
+		if _balloonname != '' && !(ASEARCH(_balloonname,PLUGINUTIL.installedballoon_name) >= 0) {
+			PLUGINUTIL.installedballoon_name ,= _balloonname
+			PLUGINUTIL.installedballoon_path ,= _argv[0] + _dirlist[StructBalloonList.Index]
+		}
+	}
+	ERASEVAR('StructBalloonList.Index')
+}
+
+//------------------------------------------------------------------------------
+//関数名：PLUGINUTIL.GetCharsetFromDescriptTxt
+//機能　：descript.txtからcharsetを取得します
+//引数　：_argv[0] 取得対象のバルーンディレクトリ
+//------------------------------------------------------------------------------
+PLUGINUTIL.GetCharsetFromDescriptTxt
+{
+	if !FOPEN(_filename = "%(_argv[0])\descript.txt", 'r')
+		return
+	_charset = ''
+	_flag = 0
+	while _flag != 1 {
+		if (_line = FREAD(_filename)) == -1; _flag = 1
+
+		if 'charset' _in_ CUTSPACE(_line[0]) {
+			_charset = CUTSPACE(_line[1])
+			_flag = 1
+		}
+	}
+	FCLOSE(_filename)
+
+	FCHARSET(_charset)
+	if !FOPEN(_filename = "%(_argv[0])\descript.txt", 'r')
+		return
+	_charset = ''
+	_flag = 0
+	while _flag != 1 {
+		if (_line = FREAD(_filename)) == -1; _flag = 1
+
+		if CUTSPACE(_line[0]) == "charset" {
+			_charset = CUTSPACE(_line[1])
+			_flag = 1
+		}
+	}
+	FCLOSE(_filename)
+
+	_charset
+}
+
+//------------------------------------------------------------------------------
+//関数名：PLUGINUTIL.GetBalloonNameFromDescriptTxt
+//機能　：descript.txtからnameを取得します
+//引数　：_argv[0] 取得対象のバルーンディレクトリ
+//引数　：_argv[1] charset
+//------------------------------------------------------------------------------
+PLUGINUTIL.GetBalloonNameFromDescriptTxt
+{
+	if _argv[1] != '' {
+		FCHARSET(_argv[1])
+	}
+	if !FOPEN(_filename = "%(_argv[0])\descript.txt", 'r')
+		return
+	_name = ''
+	_flag = 0
+	while _flag != 1 {
+		if (_line = FREAD(_filename)) == -1; _flag = 1
+
+		if CUTSPACE(_line[0]) == "name" {
+			_name = CUTSPACE(_line[1])
+			_flag = 1
+		}
+	}
+	FCLOSE(_filename)
+
+	_name
+}
+
+//------------------------------------------------------------------------------
+//適当な長さで切る
+PLUGINUTIL.MakeShortText
+{
+	if _argc < 2 {
+		'';
+		return;
+	}
+	
+	_num = _argv[1] / 2
+	_len = STRLEN(_argv[0])
+	_text = ''
+	
+	if _num >= _len {
+		_argv[0]
+		return;
+	}
+	
+	_lendiff = 0
+	while 1 {
+		_text = SUBSTR(_argv[0],0,_num)
+		
+		_lendiff = GETSTRBYTES(_text,127) - _argv[1] + 1
+		if _lendiff >= 0 {
+			break;
+		}
+		_num += 1
+		if _num >= _len {
+			break;
+		}
+	}
+	
+	if _num >= _len {
+		_argv[0]
+	}
+	else {
+		_text = SUBSTR(_argv[0],0,_num - 1)
+		if _lendiff > 0 {
+			_text += '..'
+		}
+		else {
+			_text += '...'
+		}
+		_text;
+	}
+}
+
+//------------------------------------------------------------------------------
+PLUGINUTIL.BottunClose
+{
+	_x = _argv[0]
+	_y = _argv[1]
+	_c = _argv[2]
+	"\_l[%(_x),%(_y)]\f[shadowcolor,none]\f[height,24]\f[color,255,0,0]\__q[%(_c)]■\__q/
+		\_l[%(_x),%(_y)]\f[color,255,255,255]×/
+		\f[color,default]\f[height,default]\f[shadowcolor,default]"
+}
+
+PLUGINUTIL.BottunPageBack
+{
+	_x = _argv[0]
+	_y = _argv[1]
+	_c = _argv[2]
+	"\_l[%(_x),%(_y)]\f[shadowcolor,none]\f[height,24]\f[color,0,0,255]\__q[%(_c)]■\__q/
+		\_l[" + (_x + 5) + "," + (_y + 5) + "]\f[bold,true]\f[color,255,255,255]\f[height,-8]≪/
+		\f[bold,default]\f[color,default]\f[height,default]\f[shadowcolor,default]"
+}
+
+PLUGINUTIL.BottunPageNext
+{
+	_x = _argv[0]
+	_y = _argv[1]
+	_c = _argv[2]
+	"\_l[%(_x),%(_y)]\f[shadowcolor,none]\f[height,24]\f[color,0,0,255]\__q[%(_c)]■\__q/
+		\_l[" + (_x + 4) + "," + (_y + 5) + "]\f[bold,true]\f[color,255,255,255]\f[height,-8]≫/
+		\f[bold,default]\f[color,default]\f[height,default]\f[shadowcolor,default]"
+}
+
+PLUGINUTIL.FillSpace
+{
+	if _argv[0] < 10 {
+		' '
+	}
+	--
+	_argv[0]
+}
