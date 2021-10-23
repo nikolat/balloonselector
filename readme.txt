@@ -1,72 +1,72 @@
 
-�@�v���O�C���wBalloonSelector�x
+　プラグイン『BalloonSelector』
 
-�@�쐬�ҁ@�@�@�@Don
-�@�ꎟ�z�z���@�@http://home.384.jp/evidence/
+　作成者　　　　Don
+　一次配布元　　http://home.384.jp/evidence/
 
-���@�\
+■機能
 
-�@�C���X�g�[���ς݂̃o���[���摜���ꕔ�؂����ăo���[�����ɂX�\�����܂��B
-�@�o���[����I������Ƃ��̃o���[���ɐ؂�ւ��܂��B
+　インストール済みのバルーン画像を一部切り取ってバルーン内に９個表示します。
+　バルーンを選択するとそのバルーンに切り替わります。
 
-���d�l
+■仕様
 
-��Ghost���ɒʒm�����C�x���g�͈ȉ��̒ʂ�ł��B
+◆Ghost側に通知されるイベントは以下の通りです。
 
-��OnBalloonSelectMenu
-Reference0�@�@�o���[����\������y�[�W�ԍ�(Zero Origin)
+●OnBalloonSelectMenu
+Reference0　　バルーンを表示するページ番号(Zero Origin)
 
-�@�o���[���Z���N�g���j���[��\������ۂɒʒm����܂��B
-�@�o���[�����ɕ\������Ă���y�[�W�ԍ����P�������l�ł��B
+　バルーンセレクトメニューを表示する際に通知されます。
+　バルーン内に表示されているページ番号より１小さい値です。
 
-��OnBalloonSelectExec
-Reference0�@�@�o���[����
+●OnBalloonSelectExec
+Reference0　　バルーン名
 
-�@���[�U���o���[����I�������ہA�o���[���`�F���W���鎞�ɒʒm����܂��B
+　ユーザがバルーンを選択した際、バルーンチェンジする時に通知されます。
 
-��OnBalloonSelectCancel
+●OnBalloonSelectCancel
 
-�@���[�U���o���[���Z���N�g���j���[������ۂɒʒm����܂��B
-�@�o���[���u���C�N�������l�̈����Ƃ��܂��B
+　ユーザがバルーンセレクトメニューを閉じた際に通知されます。
+　バルーンブレイク時も同様の扱いとします。
 
-��Ghost�����痘�p�ł���C�x���g�͈ȉ��̒ʂ�ł��B
-�i\![raiseplugin,BalloonSelector,�C�x���g��,Argument0,...]�j
+◆Ghost側から利用できるイベントは以下の通りです。
+（\![raiseplugin,BalloonSelector,イベント名,Argument0,...]）
 
-��OnMenuExec
+●OnMenuExec
 
-�@�o���[���Z���N�g���j���[�̍ŏ��̃y�[�W���J���܂��B
+　バルーンセレクトメニューの最初のページを開きます。
 
-��OnBalloonSelectMenuOpen
-Argument0�@�@�o���[����\������y�[�W�ԍ�(Zero Origin)
+●OnBalloonSelectMenuOpen
+Argument0　　バルーンを表示するページ番号(Zero Origin)
 
-�@�o���[���Z���N�g���j���[���y�[�W�ԍ����w�肵�ĕ\�����܂��B
-�@�o���[�����ɕ\�������y�[�W�ԍ����P�������l���w�肵�Ă��������B
+　バルーンセレクトメニューをページ番号を指定して表示します。
+　バルーン内に表示されるページ番号より１小さい値を指定してください。
 
-���ӎ�
+■謝辞
 
-�@��YAYA as PLUGIN���g�킹�Ē����Ă���܂��B
-�@���u������ -The Maintenance Shop-�v
-�@�@http://ms.shillest.net/yaya_as.xhtml
+　◆YAYA as PLUGINを使わせて頂いております。
+　◇「整備班 -The Maintenance Shop-」
+　　http://ms.shillest.net/yaya_as.xhtml
 
-�@���肪�Ƃ��������܂��B
+　ありがとうございます。
 
-���X�V����
+■更新履歴
 
-2008/09/07	Ver1.0	�V�K�쐬
-2008/09/08	Ver1.1	�o���[���T�C�Y�ɍ��킹�ĕό`�ł���悤�ɂ���
-          	      	OnBalloonSelectMenuOpen�ǉ�
-2008/09/09	Ver1.2	�o���[���t�H���_�𕡐��w�肵���ꍇ�ɑΉ�
-2008/09/10	Ver1.3	�o���[���̎����X�N���[���𖳌���
-          	      	�o���[���^�C���A�E�g������
-          	      	�o���[���u���C�N��OnBalloonSelectCancel�Ƃ��Ēʒm
-          	      	���݂̃y�[�W�����i�y�[�W�{�^���ɔ��f
-          	      	���i�y�[�W�{�^���̍ő�\������30�Ƃ���
-          	      	�o���[���؂���T�C�Y�̍ŏ��l��ݒ�
-          	      	�S�̓I�ȃ��C�A�E�g�̔�����
-2008/09/13	Ver1.4	�����R�[�h��Shift_JIS�ȊO�ɑΉ��ł��Ă��Ȃ������̂��C��
-2008/09/14	Ver1.5	yaya.dll�����ւ�
-          	      	YAYA as PLUGIN�e���v���[�g�����ւ�
-2008/12/14	Ver1.6	yaya.dll�����ւ�
-          	      	YAYA�̑����ꉻ�ɂ��Shift_JIS / UTF-8�ȊO�ɂ������̕����R�[�h�ɑΉ��\��
-2011/02/07	Ver1.7	�g�����X���[�g���s���S�[�X�g�ňӐ}���Ȃ�������̒u�����s����
-          	      	�ꍇ������s��̏C��
+2008/09/07	Ver1.0	新規作成
+2008/09/08	Ver1.1	バルーンサイズに合わせて変形できるようにした
+          	      	OnBalloonSelectMenuOpen追加
+2008/09/09	Ver1.2	バルーンフォルダを複数指定した場合に対応
+2008/09/10	Ver1.3	バルーンの自動スクロールを無効化
+          	      	バルーンタイムアウト無効化
+          	      	バルーンブレイクをOnBalloonSelectCancelとして通知
+          	      	現在のページを下段ページボタンに反映
+          	      	下段ページボタンの最大表示数を30とした
+          	      	バルーン切り取りサイズの最小値を設定
+          	      	全体的なレイアウトの微調整
+2008/09/13	Ver1.4	文字コードがShift_JIS以外に対応できていなかったのを修正
+2008/09/14	Ver1.5	yaya.dll差し替え
+          	      	YAYA as PLUGINテンプレート差し替え
+2008/12/14	Ver1.6	yaya.dll差し替え
+          	      	YAYAの多言語化によりShift_JIS / UTF-8以外にも多くの文字コードに対応可能に
+2011/02/07	Ver1.7	トランスレートを行うゴーストで意図しない文字列の置換が行われる
+          	      	場合がある不具合の修正

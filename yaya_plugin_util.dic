@@ -21,12 +21,12 @@ balloonpathlist
 }
 
 //------------------------------------------------------------------------------
-//ŠÖ”–¼FPLUGINUTIL.StructBalloonList
-//‹@”\@F\’z
+//é–¢æ•°åï¼šPLUGINUTIL.StructBalloonList
+//æ©Ÿèƒ½ã€€ï¼šæ§‹ç¯‰
 //------------------------------------------------------------------------------
 PLUGINUTIL.StructBalloonList
 {
-	// balloonƒfƒBƒŒƒNƒgƒŠ”z‰º‚ÌƒfƒBƒŒƒNƒgƒŠ‚ğ’Šo
+	// balloonãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªé…ä¸‹ã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’æŠ½å‡º
 	_filelist = FENUM(_argv[0])
 	_dirlist  = IARRAY
 	foreach _filelist; _file {
@@ -34,16 +34,16 @@ PLUGINUTIL.StructBalloonList
 	}
 	_dirnum = ARRAYSIZE(_dirlist)
 
-	// æ“¾ŠJnˆÊ’u‚Ææ“¾”‚ğ‹‚ß‚é
+	// å–å¾—é–‹å§‹ä½ç½®ã¨å–å¾—æ•°ã‚’æ±‚ã‚ã‚‹
 	StructBalloonList.Index = 0
 	_num                    = _dirnum
 
-	// ƒŠƒXƒgì¬åˆ—
+	// ãƒªã‚¹ãƒˆä½œæˆä¸»å‡¦ç†
 	for _i = 0; _i < _num; _i++ {
-		// æ“¾ˆÊ’u‚ÌXV
+		// å–å¾—ä½ç½®ã®æ›´æ–°
 		StructBalloonList.Index++
 
-		// descript.txt‚©‚çî•ñæ“¾
+		// descript.txtã‹ã‚‰æƒ…å ±å–å¾—
 		_charset     = PLUGINUTIL.GetCharsetFromDescriptTxt(/
 						_argv[0] + _dirlist[StructBalloonList.Index])
 		if _charset == '' {
@@ -52,7 +52,7 @@ PLUGINUTIL.StructBalloonList
 		_balloonname = PLUGINUTIL.GetBalloonNameFromDescriptTxt(/
 						_argv[0] + _dirlist[StructBalloonList.Index],_charset)
 
-		// ƒŠƒXƒg‚Ö’Ç‰Á
+		// ãƒªã‚¹ãƒˆã¸è¿½åŠ 
 		if _balloonname != '' && !(ASEARCH(_balloonname,PLUGINUTIL.installedballoon_name) >= 0) {
 			PLUGINUTIL.installedballoon_name ,= _balloonname
 			PLUGINUTIL.installedballoon_path ,= _argv[0] + _dirlist[StructBalloonList.Index]
@@ -62,9 +62,9 @@ PLUGINUTIL.StructBalloonList
 }
 
 //------------------------------------------------------------------------------
-//ŠÖ”–¼FPLUGINUTIL.GetCharsetFromDescriptTxt
-//‹@”\@Fdescript.txt‚©‚çcharset‚ğæ“¾‚µ‚Ü‚·
-//ˆø”@F_argv[0] æ“¾‘ÎÛ‚Ìƒoƒ‹[ƒ“ƒfƒBƒŒƒNƒgƒŠ
+//é–¢æ•°åï¼šPLUGINUTIL.GetCharsetFromDescriptTxt
+//æ©Ÿèƒ½ã€€ï¼šdescript.txtã‹ã‚‰charsetã‚’å–å¾—ã—ã¾ã™
+//å¼•æ•°ã€€ï¼š_argv[0] å–å¾—å¯¾è±¡ã®ãƒãƒ«ãƒ¼ãƒ³ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
 //------------------------------------------------------------------------------
 PLUGINUTIL.GetCharsetFromDescriptTxt
 {
@@ -101,10 +101,10 @@ PLUGINUTIL.GetCharsetFromDescriptTxt
 }
 
 //------------------------------------------------------------------------------
-//ŠÖ”–¼FPLUGINUTIL.GetBalloonNameFromDescriptTxt
-//‹@”\@Fdescript.txt‚©‚çname‚ğæ“¾‚µ‚Ü‚·
-//ˆø”@F_argv[0] æ“¾‘ÎÛ‚Ìƒoƒ‹[ƒ“ƒfƒBƒŒƒNƒgƒŠ
-//ˆø”@F_argv[1] charset
+//é–¢æ•°åï¼šPLUGINUTIL.GetBalloonNameFromDescriptTxt
+//æ©Ÿèƒ½ã€€ï¼šdescript.txtã‹ã‚‰nameã‚’å–å¾—ã—ã¾ã™
+//å¼•æ•°ã€€ï¼š_argv[0] å–å¾—å¯¾è±¡ã®ãƒãƒ«ãƒ¼ãƒ³ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
+//å¼•æ•°ã€€ï¼š_argv[1] charset
 //------------------------------------------------------------------------------
 PLUGINUTIL.GetBalloonNameFromDescriptTxt
 {
@@ -129,7 +129,7 @@ PLUGINUTIL.GetBalloonNameFromDescriptTxt
 }
 
 //------------------------------------------------------------------------------
-//“K“–‚È’·‚³‚ÅØ‚é
+//é©å½“ãªé•·ã•ã§åˆ‡ã‚‹
 PLUGINUTIL.MakeShortText
 {
 	if _argc < 2 {
@@ -181,8 +181,8 @@ PLUGINUTIL.BottunClose
 	_x = _argv[0]
 	_y = _argv[1]
 	_c = _argv[2]
-	"\_l[%(_x),%(_y)]\f[shadowcolor,none]\f[height,24]\f[color,255,0,0]\__q[%(_c)]¡\__q/
-		\_l[%(_x),%(_y)]\f[color,255,255,255]~/
+	"\_l[%(_x),%(_y)]\f[shadowcolor,none]\f[height,24]\f[color,255,0,0]\__q[%(_c)]â– \__q/
+		\_l[%(_x),%(_y)]\f[color,255,255,255]Ã—/
 		\f[color,default]\f[height,default]\f[shadowcolor,default]"
 }
 
@@ -191,8 +191,8 @@ PLUGINUTIL.BottunPageBack
 	_x = _argv[0]
 	_y = _argv[1]
 	_c = _argv[2]
-	"\_l[%(_x),%(_y)]\f[shadowcolor,none]\f[height,24]\f[color,0,0,255]\__q[%(_c)]¡\__q/
-		\_l[" + (_x + 5) + "," + (_y + 5) + "]\f[bold,true]\f[color,255,255,255]\f[height,-8]á/
+	"\_l[%(_x),%(_y)]\f[shadowcolor,none]\f[height,24]\f[color,0,0,255]\__q[%(_c)]â– \__q/
+		\_l[" + (_x + 5) + "," + (_y + 5) + "]\f[bold,true]\f[color,255,255,255]\f[height,-8]â‰ª/
 		\f[bold,default]\f[color,default]\f[height,default]\f[shadowcolor,default]"
 }
 
@@ -201,8 +201,8 @@ PLUGINUTIL.BottunPageNext
 	_x = _argv[0]
 	_y = _argv[1]
 	_c = _argv[2]
-	"\_l[%(_x),%(_y)]\f[shadowcolor,none]\f[height,24]\f[color,0,0,255]\__q[%(_c)]¡\__q/
-		\_l[" + (_x + 4) + "," + (_y + 5) + "]\f[bold,true]\f[color,255,255,255]\f[height,-8]â/
+	"\_l[%(_x),%(_y)]\f[shadowcolor,none]\f[height,24]\f[color,0,0,255]\__q[%(_c)]â– \__q/
+		\_l[" + (_x + 4) + "," + (_y + 5) + "]\f[bold,true]\f[color,255,255,255]\f[height,-8]â‰«/
 		\f[bold,default]\f[color,default]\f[height,default]\f[shadowcolor,default]"
 }
 

@@ -1,7 +1,7 @@
 //******************************************************************************
 /*
-PLUGIN/2.0§ŒäƒXƒNƒŠƒvƒg for YAYA
-—š—ğ
+PLUGIN/2.0åˆ¶å¾¡ã‚¹ã‚¯ãƒªãƒ—ãƒˆ for YAYA
+å±¥æ­´
 ver. date     noted
 1.0  20080422 Initial Impl. by C.Ponapalt
 1.1  20080511 ScriptOption / EventOption
@@ -10,21 +10,21 @@ ver. date     noted
 
 
 //------------------------------------------------------------------------------
-//ˆÈ‰º‚Ìdefine‚ÍŠî–{“I‚É˜M‚ç‚È‚¢‚Å‰º‚³‚¢
+//ä»¥ä¸‹ã®defineã¯åŸºæœ¬çš„ã«å¼„ã‚‰ãªã„ã§ä¸‹ã•ã„
 //------------------------------------------------------------------------------
 
-// •¶š/•¶š—ñ’è”
-#define	C_CRLF2		C_CRLF+C_CRLF					/* ‰üsƒR[ƒhx2   */
-#define	C_CRLF		CHR(0xd)+CHR(0xa)				/* ‰üsƒR[ƒh     */
-#define	C_BYTE1		CHR(0x1)						/* ƒoƒCƒg’l1      */
+// æ–‡å­—/æ–‡å­—åˆ—å®šæ•°
+#define	C_CRLF2		C_CRLF+C_CRLF					/* æ”¹è¡Œã‚³ãƒ¼ãƒ‰x2   */
+#define	C_CRLF		CHR(0xd)+CHR(0xa)				/* æ”¹è¡Œã‚³ãƒ¼ãƒ‰     */
+#define	C_BYTE1		CHR(0x1)						/* ãƒã‚¤ãƒˆå€¤1      */
 
 //******************************************************************************
 // load
 //******************************************************************************
 
 //------------------------------------------------------------------------------
-//ŠÖ”–¼Fload
-//‹@”\@Fƒ[ƒh‚Ìˆ—
+//é–¢æ•°åï¼šload
+//æ©Ÿèƒ½ã€€ï¼šãƒ­ãƒ¼ãƒ‰æ™‚ã®å‡¦ç†
 //------------------------------------------------------------------------------
 load
 {
@@ -35,7 +35,7 @@ load
 	
 	var.lib.result = ''
 	
-	// –ˆ‰ñ‹N“®‚Ì‰Šú‰»
+	// æ¯å›èµ·å‹•æ™‚ã®åˆæœŸåŒ–
 	SAORI.DllList         = IARRAY
 	basewarename          = ''
 	basewarenameex        = ''
@@ -46,7 +46,7 @@ load
 	
 	tempvarname = IARRAY
 	
-	//„§
+	//æ¨å¥¨
 	_a = GETFUNCLIST('OnSystemLoad')
 	_n = ARRAYSIZE(_a)
 	for _i = 0 ; _i < _n ; _i++
@@ -54,7 +54,7 @@ load
 		EVAL(_a[_i])
 	}
 	
-	//ŒİŠ·
+	//äº’æ›
 	_a = GETFUNCLIST('OnPluginLoad')
 	_n = ARRAYSIZE(_a)
 	for _i = 0 ; _i < _n ; _i++
@@ -68,8 +68,8 @@ load
 //******************************************************************************
 
 //------------------------------------------------------------------------------
-//ŠÖ”–¼Funload
-//‹@”\@FI—¹ˆ—
+//é–¢æ•°åï¼šunload
+//æ©Ÿèƒ½ã€€ï¼šçµ‚äº†å‡¦ç†
 //------------------------------------------------------------------------------
 unload
 {
@@ -78,7 +78,7 @@ unload
 	var.req.key   = IARRAY
 	var.req.value = IARRAY
 
-	//ŒİŠ·
+	//äº’æ›
 	_a = GETFUNCLIST('OnPluginUnload')
 	_n = ARRAYSIZE(_a)
 	for _i = _n-1 ; _i >= 0 ; _i--
@@ -86,7 +86,7 @@ unload
 		EVAL(_a[_i])
 	}
 
-	//„§
+	//æ¨å¥¨
 	_a = GETFUNCLIST('OnSystemUnload')
 	_n = ARRAYSIZE(_a)
 	for _i = _n-1 ; _i >= 0 ; _i--
@@ -94,7 +94,7 @@ unload
 		EVAL(_a[_i])
 	}
 
-	// •Û‘¶‚·‚é•K—v‚Ì‚È‚¢•Ï”‚ğíœ
+	// ä¿å­˜ã™ã‚‹å¿…è¦ã®ãªã„å¤‰æ•°ã‚’å‰Šé™¤
 	ERASEVAR('PLUGINUTIL.installedballoon_path')
 	ERASEVAR('PLUGINUTIL.installedballoon_name')	//edited by Don
 
@@ -138,8 +138,8 @@ unload
 }
 
 //------------------------------------------------------------------------------
-//ŠÖ”–¼FAyaTest.Eval
-//‹@”\@Fó‚¯æ‚Á‚½•¶š—ñ‚ğEVAL‚µ‚Ä•Ô‚·
+//é–¢æ•°åï¼šAyaTest.Eval
+//æ©Ÿèƒ½ã€€ï¼šå—ã‘å–ã£ãŸæ–‡å­—åˆ—ã‚’EVALã—ã¦è¿”ã™
 //------------------------------------------------------------------------------
 AyaTest.Eval
 {
@@ -160,9 +160,9 @@ AyaTest.Eval
 //request
 //******************************************************************************
 //------------------------------------------------------------------------------
-//ŠÖ”–¼Frequest
-//‹@”\@Fó‚¯æ‚Á‚½•¶š—ñ‚ğPLUGINƒŠƒNƒGƒXƒgƒwƒbƒ_‚Æ‚µ‚Ä‰ğÍ‚µ‚½ŒãA
-//        OnRequest‚ğŠˆ«‰»‚µ‚Ü‚·
+//é–¢æ•°åï¼šrequest
+//æ©Ÿèƒ½ã€€ï¼šå—ã‘å–ã£ãŸæ–‡å­—åˆ—ã‚’PLUGINãƒªã‚¯ã‚¨ã‚¹ãƒˆãƒ˜ãƒƒãƒ€ã¨ã—ã¦è§£æã—ãŸå¾Œã€
+//        OnRequestã‚’æ´»æ€§åŒ–ã—ã¾ã™
 //------------------------------------------------------------------------------
 request
 {
@@ -170,7 +170,7 @@ request
 	//test(_argv[0])
 	//return
 	
-	if SUBSTR(_argv[0],0,3) == '?? ' { //‹Ê‚Å‚ÌƒeƒXƒg—p
+	if SUBSTR(_argv[0],0,3) == '?? ' { //ç‰ã§ã®ãƒ†ã‚¹ãƒˆç”¨
 		'!! ' + JOIN(AyaTest.Eval(ERASE(_argv[0],0,3)),',')
 		return
 	}
@@ -180,17 +180,17 @@ request
 	_lineend = STRSTR(_reqdata, C_CRLF, _linestart)
 	
 	if _lineend <= 0 {
-		//1s–Ú‚·‚ç‚È‚¢I
+		//1è¡Œç›®ã™ã‚‰ãªã„ï¼
 		"PLUGIN/2.0 400 Bad Request%(C_CRLF)Charset: %(S_CHARSET)%(C_CRLF2)"
 		return
 	}
 	_lin = SUBSTR(_reqdata,_linestart,(_lineend - _linestart))
 
-	// ƒŠƒNƒGƒXƒgí•Ê‚ÆƒvƒƒgƒRƒ‹–¼‚Ìæ“¾@ƒGƒ‰[‚È‚ç400
+	// ãƒªã‚¯ã‚¨ã‚¹ãƒˆç¨®åˆ¥ã¨ãƒ—ãƒ­ãƒˆã‚³ãƒ«åã®å–å¾—ã€€ã‚¨ãƒ©ãƒ¼ãªã‚‰400
 	REQ.COMMAND  = _lin[0," PLUGIN"]
 	REQ.PROTOCOL = "PLUGIN" + _lin[1," PLUGIN"]
 
-	// ƒŠƒNƒGƒXƒgƒwƒbƒ_‚Ìæ“¾
+	// ãƒªã‚¯ã‚¨ã‚¹ãƒˆãƒ˜ãƒƒãƒ€ã®å–å¾—
 	var.req.key   = IARRAY
 	var.req.value = IARRAY
 	
@@ -200,11 +200,11 @@ request
 	status = ''
 	
 	while _lineend > _linestart {
-		//s•ªŠ„
+		//è¡Œåˆ†å‰²
 		_linestart = _lineend + 2
 		_lineend = STRSTR(_reqdata, C_CRLF, _linestart)
 		
-		//‹ós‚à‚µ‚­‚Í‚İ‚Â‚©‚ç‚È‚©‚Á‚½
+		//ç©ºè¡Œã‚‚ã—ãã¯ã¿ã¤ã‹ã‚‰ãªã‹ã£ãŸ
 		if _lineend <= _linestart {
 			break
 		}
@@ -213,13 +213,13 @@ request
 		
 		_lin = SUBSTR(_reqdata,_linestart,(_lineend - _linestart))
 				
-		// ƒL[‚Æ’l‚ğæ“¾
+		// ã‚­ãƒ¼ã¨å€¤ã‚’å–å¾—
 		_len = STRLEN(_lin)
 		_pos = STRSTR(_lin,": ",0)
 		var.req.key ,= (_key = SUBSTR(_lin,0,_pos))
 		_value       = SUBSTR(_lin,(_pos + 2),(_len - _pos - 2))
 
-		// ƒCƒxƒ“ƒgID–¼Ì‚ğæ“¾
+		// ã‚¤ãƒ™ãƒ³ãƒˆIDåç§°ã‚’å–å¾—
 		if _key == "Charset" {
 			if S_CHARSET != _value {
 				void SETSETTING('charset.output',_value)
@@ -228,21 +228,21 @@ request
 		}
 		elseif _key == "ID" {
 			PLUGINFW.Eventid = _value
-			// ƒnƒ“ƒhƒ‰‚ª–³‚¢ê‡‚Í‘¦•Ô‚é
+			// ãƒãƒ³ãƒ‰ãƒ©ãŒç„¡ã„å ´åˆã¯å³è¿”ã‚‹
 			if !ISFUNC(PLUGINFW.Eventid) {
 				PLUGINFW.MakeEmptyResponse(PLUGINFW.Eventid)
 				return
 			}
 			_idparsed = 1
 		}
-		// ƒZƒLƒ…ƒŠƒeƒBƒŒƒxƒ‹="External"‚È‚ç‘¦•Ô‚é
+		// ã‚»ã‚­ãƒ¥ãƒªãƒ†ã‚£ãƒ¬ãƒ™ãƒ«="External"ãªã‚‰å³è¿”ã‚‹
 		elseif _key == 'SecurityLevel' {
 			if _value == 'External' {
 				"PLUGIN/2.0 204 No Content%(C_CRLF)Charset: %(S_CHARSET)%(C_CRLF2)"
 				return
 			}
 		}
-		// ƒx[ƒXƒEƒFƒA–¼æ“¾
+		// ãƒ™ãƒ¼ã‚¹ã‚¦ã‚§ã‚¢åå–å¾—
 		elseif _key == 'Sender' {
 			if basewarenameex == '' {
 				basewarenameex = _value
@@ -255,14 +255,14 @@ request
 			status = _value
 		}
 
-		// ƒL[‚Æ’l‚ğ‹L‰¯
+		// ã‚­ãƒ¼ã¨å€¤ã‚’è¨˜æ†¶
 		if PLUGINFW.AUTO_DATA_CONVERT {
 			if ISINTSTR(_value)
 				var.req.value ,= TOINT(_value)
 			elseif ISREALSTR(_value)
 				var.req.value ,= TOREAL(_value)
 			else
-				var.req.value ,= REPLACE(_value, C_BYTE1, ",")	// ƒoƒCƒg’l1‚ÍƒJƒ“ƒ}‰»‚µ‚Ä‚µ‚Ü‚¤
+				var.req.value ,= REPLACE(_value, C_BYTE1, ",")	// ãƒã‚¤ãƒˆå€¤1ã¯ã‚«ãƒ³ãƒåŒ–ã—ã¦ã—ã¾ã†
 		}
 		else {
 			var.req.value ,= TOAUTO(_value)
@@ -273,21 +273,21 @@ request
 }
 
 //------------------------------------------------------------------------------
-//ŠÖ”–¼FOnRequest
-//‹@”\@Fó‚¯æ‚Á‚½ƒŠƒNƒGƒXƒg‚É‰‚¶‚½ˆ—‚ğs‚¢‚Ü‚·
+//é–¢æ•°åï¼šOnRequest
+//æ©Ÿèƒ½ã€€ï¼šå—ã‘å–ã£ãŸãƒªã‚¯ã‚¨ã‚¹ãƒˆã«å¿œã˜ãŸå‡¦ç†ã‚’è¡Œã„ã¾ã™
 //------------------------------------------------------------------------------
 OnRequest
 {
-	// ƒRƒ}ƒ“ƒh•Ê‚Éˆ—•ªŠò
+	// ã‚³ãƒãƒ³ãƒ‰åˆ¥ã«å‡¦ç†åˆ†å²
 	case REQ.COMMAND {
 	when "NOTIFY" {
-		// NOTIFYƒŠƒNƒGƒXƒg
+		// NOTIFYãƒªã‚¯ã‚¨ã‚¹ãƒˆ
 		_result = PLUGINFW.RaiseIDEvent
 		"PLUGIN/2.0 200 OK%(C_CRLF)Charset: %(S_CHARSET)%(C_CRLF2)"
 	}
 
 	when "GET" {
-		// GETƒŠƒNƒGƒXƒg
+		// GETãƒªã‚¯ã‚¨ã‚¹ãƒˆ
 		_result = PLUGINFW.RaiseIDEvent
 		_refheader = PLUGINFW.AssembleOptionalHeader
 		
@@ -310,14 +310,14 @@ OnRequest
 	}
 
 	others
-		// –¢’m‚ÌƒŠƒNƒGƒXƒg
+		// æœªçŸ¥ã®ãƒªã‚¯ã‚¨ã‚¹ãƒˆ
 		"PLUGIN/2.0 400 Bad Request%(C_CRLF2)"
 	}
 }
 
 //------------------------------------------------------------------------------
-//ŠÖ”–¼FPLUGINFW.AssembleOptionalHeader
-//‹@”\@F•Ô‘——p‚Ì’Ç‰Áƒwƒbƒ_•¶š—ñ‚ğì¬‚µ‚Ü‚·
+//é–¢æ•°åï¼šPLUGINFW.AssembleOptionalHeader
+//æ©Ÿèƒ½ã€€ï¼šè¿”é€ç”¨ã®è¿½åŠ ãƒ˜ãƒƒãƒ€æ–‡å­—åˆ—ã‚’ä½œæˆã—ã¾ã™
 //------------------------------------------------------------------------------
 PLUGINFW.AssembleOptionalHeader
 {
@@ -357,17 +357,17 @@ PLUGINFW.AssembleOptionalHeader
 }
 
 //------------------------------------------------------------------------------
-//ŠÖ”–¼FPLUGINFW.RaiseIDEvent
-//‹@”\@Fw’è‚³‚ê‚½–¼‘O‚ÌŠÖ”‚ğÀs‚µ‚ÄŒ‹‰Ê‚ğæ“¾‚µ‚Ü‚·
+//é–¢æ•°åï¼šPLUGINFW.RaiseIDEvent
+//æ©Ÿèƒ½ã€€ï¼šæŒ‡å®šã•ã‚ŒãŸåå‰ã®é–¢æ•°ã‚’å®Ÿè¡Œã—ã¦çµæœã‚’å–å¾—ã—ã¾ã™
 //------------------------------------------------------------------------------
 PLUGINFW.RaiseIDEvent
 {
-	// reference •Ï”‚ğì¬
+	// reference å¤‰æ•°ã‚’ä½œæˆ
 	PLUGINFW.MakeReferenceVariable
 	
 	_event = PLUGINFW.Eventid
 	
-	// ƒCƒxƒ“ƒgŠˆ«‰»
+	// ã‚¤ãƒ™ãƒ³ãƒˆæ´»æ€§åŒ–
 	_result = ''
 	if ISFUNC(_event) {
 		_result = EVAL(_event)
@@ -376,13 +376,13 @@ PLUGINFW.RaiseIDEvent
 		_result
 	}
 
-	// reference •Ï”‚ğƒNƒŠƒA
+	// reference å¤‰æ•°ã‚’ã‚¯ãƒªã‚¢
 	PLUGINFW.ClearReferenceVariable
 }
 
 //------------------------------------------------------------------------------
-//ŠÖ”–¼FPLUGINFW.MakeEmptyResponse
-//‹@”\@F“K³‚È‚©‚ç‚Á‚Û‰“š•¶š—ñ‚ğì¬‚µ‚Ü‚·
+//é–¢æ•°åï¼šPLUGINFW.MakeEmptyResponse
+//æ©Ÿèƒ½ã€€ï¼šé©æ­£ãªã‹ã‚‰ã£ã½å¿œç­”æ–‡å­—åˆ—ã‚’ä½œæˆã—ã¾ã™
 //------------------------------------------------------------------------------
 PLUGINFW.MakeEmptyResponse
 {
@@ -390,8 +390,8 @@ PLUGINFW.MakeEmptyResponse
 }
 
 //------------------------------------------------------------------------------
-//ŠÖ”–¼FPLUGINFW.MakeReferenceVariable
-//‹@”\@FReference*ƒwƒbƒ_‚©‚çreference*•Ï”‚ğì¬‚µ‚Ü‚·
+//é–¢æ•°åï¼šPLUGINFW.MakeReferenceVariable
+//æ©Ÿèƒ½ã€€ï¼šReference*ãƒ˜ãƒƒãƒ€ã‹ã‚‰reference*å¤‰æ•°ã‚’ä½œæˆã—ã¾ã™
 //------------------------------------------------------------------------------
 PLUGINFW.MakeReferenceVariable : void
 {
@@ -407,8 +407,8 @@ PLUGINFW.MakeReferenceVariable : void
 }
 
 //------------------------------------------------------------------------------
-//ŠÖ”–¼FPLUGINFW.ClearReferenceVariable
-//‹@”\@Freference*•Ï”‚ğíœ‚µ‚Ü‚·
+//é–¢æ•°åï¼šPLUGINFW.ClearReferenceVariable
+//æ©Ÿèƒ½ã€€ï¼šreference*å¤‰æ•°ã‚’å‰Šé™¤ã—ã¾ã™
 //------------------------------------------------------------------------------
 PLUGINFW.ClearReferenceVariable
 {
@@ -416,17 +416,17 @@ PLUGINFW.ClearReferenceVariable
 }
 
 //******************************************************************************
-//•¶ version 3 ƒVƒXƒeƒ€ŠÖ” / ƒVƒXƒeƒ€•Ï”‚Ì•âŠ®
+//æ–‡ version 3 ã‚·ã‚¹ãƒ†ãƒ é–¢æ•° / ã‚·ã‚¹ãƒ†ãƒ å¤‰æ•°ã®è£œå®Œ
 //FUNCTIONEX / SAORI
 //******************************************************************************
 //------------------------------------------------------------------------------
-//ŠÖ”–¼FFUNCTIONLOAD
-//‹@”\@FSAORI‚ğ“Ç‚İ‚İ‚Ü‚·
-//ˆø”@F_argv[0]@ ‘ÎÛDLL–¼
+//é–¢æ•°åï¼šFUNCTIONLOAD
+//æ©Ÿèƒ½ã€€ï¼šSAORIã‚’èª­ã¿è¾¼ã¿ã¾ã™
+//å¼•æ•°ã€€ï¼š_argv[0]ã€€ å¯¾è±¡DLLå
 //------------------------------------------------------------------------------
 FUNCTIONLOAD
 {
-	// load@ƒGƒ‰[‚È‚ç”²‚¯‚é@‰‰ñ‚Ìload‚È‚çGET Version‚ğ‘—o‚·‚é
+	// loadã€€ã‚¨ãƒ©ãƒ¼ãªã‚‰æŠœã‘ã‚‹ã€€åˆå›ã®loadãªã‚‰GET Versionã‚’é€å‡ºã™ã‚‹
 	_r_load = LOADLIB(_argv[0])
 	if !_r_load {
 		0
@@ -444,10 +444,10 @@ FUNCTIONLOAD
 }
 
 //------------------------------------------------------------------------------
-//ŠÖ”–¼FFUNCTIONEX
-//‹@”\@FSAORI‚ğÀs‚µ‚Ü‚·
-//ˆø”@F_argv[0]@ ‘ÎÛDLL–¼
-//@@@@_argv[1]` Argument0`
+//é–¢æ•°åï¼šFUNCTIONEX
+//æ©Ÿèƒ½ã€€ï¼šSAORIã‚’å®Ÿè¡Œã—ã¾ã™
+//å¼•æ•°ã€€ï¼š_argv[0]ã€€ å¯¾è±¡DLLå
+//ã€€ã€€ã€€ã€€_argv[1]ï½ Argument0ï½
 //------------------------------------------------------------------------------
 FUNCTIONEX
 {
@@ -456,7 +456,7 @@ FUNCTIONEX
 		return
 	}
 
-	// ƒŠƒNƒGƒXƒg•¶š—ñ‚ğì¬
+	// ãƒªã‚¯ã‚¨ã‚¹ãƒˆæ–‡å­—åˆ—ã‚’ä½œæˆ
 	_reqheader = /
 		"EXECUTE SAORI/1.0%(C_CRLF)Charset: %(CHARSETLIBEX(_argv[0]))%(C_CRLF)Sender: AYA%(C_CRLF)SecurityLevel: Local%(C_CRLF)"
 	for _i = 1; _i < _argc; _i++ {
@@ -464,7 +464,7 @@ FUNCTIONEX
 	}
 	_reqheader += C_CRLF
 
-	// Às
+	// å®Ÿè¡Œ
 	PLUGINFW.RequestLib(_argv[0], _reqheader)
 
 	if var.lib.result != ''
@@ -473,17 +473,17 @@ FUNCTIONEX
 }
 
 //------------------------------------------------------------------------------
-//ŠÖ”–¼FSAORI
-//‹@”\@FSAORI‚ğÀs‚µ‚Ü‚·
-//        FUNCTIONEX‚ÌƒVƒmƒjƒ€Bˆê’i‰º‘Ê‚ª“ü‚é•ªFUNCTIONEX‚æ‚è’á‘¬‚É‚È‚è‚Ü‚·‚ªA
-//        ‹C‚É‚·‚é‚Ù‚Ç‚Å‚Í‚ ‚è‚Ü‚¹‚ñB
+//é–¢æ•°åï¼šSAORI
+//æ©Ÿèƒ½ã€€ï¼šSAORIã‚’å®Ÿè¡Œã—ã¾ã™
+//        FUNCTIONEXã®ã‚·ãƒãƒ‹ãƒ ã€‚ä¸€æ®µä¸‹é§„ãŒå…¥ã‚‹åˆ†FUNCTIONEXã‚ˆã‚Šä½é€Ÿã«ãªã‚Šã¾ã™ãŒã€
+//        æ°—ã«ã™ã‚‹ã»ã©ã§ã¯ã‚ã‚Šã¾ã›ã‚“ã€‚
 //------------------------------------------------------------------------------
 SAORI { FUNCTIONEX(_argv) }
 
 //------------------------------------------------------------------------------
-//ŠÖ”–¼FPLUGINFW.SendGETVersion
-//‹@”\@FSAORI‚ÖGET Version‚ğ‘—o‚µ‚Ü‚·
-//ˆø”@F_argv[0] SAORIƒtƒ@ƒCƒ‹–¼
+//é–¢æ•°åï¼šPLUGINFW.SendGETVersion
+//æ©Ÿèƒ½ã€€ï¼šSAORIã¸GET Versionã‚’é€å‡ºã—ã¾ã™
+//å¼•æ•°ã€€ï¼š_argv[0] SAORIãƒ•ã‚¡ã‚¤ãƒ«å
 //------------------------------------------------------------------------------
 PLUGINFW.SendGETVersion
 {
@@ -493,10 +493,10 @@ PLUGINFW.SendGETVersion
 }
 
 //------------------------------------------------------------------------------
-//ŠÖ”–¼FPLUGINFW.RequestLib
-//‹@”\@FSAORI‚ÖƒŠƒNƒGƒXƒg‚ğ‘—o‚µAŒ‹‰Ê‚ğ“¾‚Ü‚·
-//ˆø”@F_argv[0] SAORIƒtƒ@ƒCƒ‹–¼
-//@@@@_argv[1] ƒŠƒNƒGƒXƒg•¶š—ñ
+//é–¢æ•°åï¼šPLUGINFW.RequestLib
+//æ©Ÿèƒ½ã€€ï¼šSAORIã¸ãƒªã‚¯ã‚¨ã‚¹ãƒˆã‚’é€å‡ºã—ã€çµæœã‚’å¾—ã¾ã™
+//å¼•æ•°ã€€ï¼š_argv[0] SAORIãƒ•ã‚¡ã‚¤ãƒ«å
+//ã€€ã€€ã€€ã€€_argv[1] ãƒªã‚¯ã‚¨ã‚¹ãƒˆæ–‡å­—åˆ—
 //------------------------------------------------------------------------------
 PLUGINFW.RequestLib
 {
@@ -505,33 +505,33 @@ PLUGINFW.RequestLib
 	var.lib.key    = IARRAY
 	var.lib.value  = IARRAY
 
-	// ƒŠƒNƒGƒXƒg‘—o
+	// ãƒªã‚¯ã‚¨ã‚¹ãƒˆé€å‡º
 	_result = REQUESTLIB(_argv[0], _argv[1])
 
-	// Œ‹‰Ê‚Ì‰ğÍ
+	// çµæœã®è§£æ
 
-	// ‰üs‚Å•ªŠ„
+	// æ”¹è¡Œã§åˆ†å‰²
 	_lines = RE_SPLIT(_result, C_CRLF)
 
-	// ƒvƒƒgƒRƒ‹–¼‚ÆŒ‹‰Ê‚Ìæ“¾
+	// ãƒ—ãƒ­ãƒˆã‚³ãƒ«åã¨çµæœã®å–å¾—
 	_seppos = STRSTR(_lines[0], ' ', 0)
 	if _seppos == -1; return
 	LIB.PROTOCOL   = SUBSTR(_lines[0], 0, _seppos)
 	LIB.STATUSCODE = SUBSTR(_lines[0], _seppos + 1, STRLEN(_lines[0]) - _seppos - 1)
 
-	// ƒŒƒXƒ|ƒ“ƒXƒwƒbƒ_‚Ìæ“¾
+	// ãƒ¬ã‚¹ãƒãƒ³ã‚¹ãƒ˜ãƒƒãƒ€ã®å–å¾—
 	var.lib.key   = IARRAY
 	var.lib.value = IARRAY
 	var.lib.result = ''
 	_skip = 1
 	foreach _lines; _lin {
-		// 1s–Ú‚Í”ò‚Î‚·
+		// 1è¡Œç›®ã¯é£›ã°ã™
 		if _skip {
 			_skip = 0
 			continue
 		}
 
-		// ƒL[‚Æ’l‚ğæ“¾
+		// ã‚­ãƒ¼ã¨å€¤ã‚’å–å¾—
 		_len         = STRLEN(_lin)
 		_pos         = STRSTR(_lin, ': ', 0)
 		var.lib.key ,= (_key = SUBSTR(_lin, 0, _pos))
@@ -558,8 +558,8 @@ PLUGINFW.RequestLib
 }
 
 //------------------------------------------------------------------------------
-//ŠÖ”–¼FPLUGINFW.MakeValueexVariable
-//‹@”\@FƒŠƒNƒGƒXƒgƒwƒbƒ_‚©‚çvalueex*•Ï”‚ğì¬‚µ‚Ü‚·
+//é–¢æ•°åï¼šPLUGINFW.MakeValueexVariable
+//æ©Ÿèƒ½ã€€ï¼šãƒªã‚¯ã‚¨ã‚¹ãƒˆãƒ˜ãƒƒãƒ€ã‹ã‚‰valueex*å¤‰æ•°ã‚’ä½œæˆã—ã¾ã™
 //------------------------------------------------------------------------------
 PLUGINFW.MakeValueexVariable
 {
@@ -574,8 +574,8 @@ PLUGINFW.MakeValueexVariable
 }
 
 //------------------------------------------------------------------------------
-//ŠÖ”–¼FPLUGINFW.ClearValueexVariable
-//‹@”\@Fvalueex*•Ï”‚ğíœ‚µ‚Ü‚·
+//é–¢æ•°åï¼šPLUGINFW.ClearValueexVariable
+//æ©Ÿèƒ½ã€€ï¼švalueex*å¤‰æ•°ã‚’å‰Šé™¤ã—ã¾ã™
 //------------------------------------------------------------------------------
 PLUGINFW.ClearValueexVariable
 {
@@ -583,8 +583,8 @@ PLUGINFW.ClearValueexVariable
 }
 
 //------------------------------------------------------------------------------
-//ŠÖ”–¼FPLUGINFW.SaoriUnloadAll
-//‹@”\@Fƒ[ƒh‚³‚ê‚Ä‚¢‚éSAORI‚ğ‚·‚×‚Äunload‚µ‚Ü‚·
+//é–¢æ•°åï¼šPLUGINFW.SaoriUnloadAll
+//æ©Ÿèƒ½ã€€ï¼šãƒ­ãƒ¼ãƒ‰ã•ã‚Œã¦ã„ã‚‹SAORIã‚’ã™ã¹ã¦unloadã—ã¾ã™
 //------------------------------------------------------------------------------
 PLUGINFW.SaoriUnloadAll
 {
@@ -594,8 +594,8 @@ PLUGINFW.SaoriUnloadAll
 }
 
 //------------------------------------------------------------------------------
-//ŠÖ”–¼FPLUGINFW.RegisterTempVar
-//‹@”\@FI—¹‚Éíœ‚·‚éƒOƒ[ƒoƒ‹•Ï”‚ğ“o˜^‚µ‚Ü‚·B
+//é–¢æ•°åï¼šPLUGINFW.RegisterTempVar
+//æ©Ÿèƒ½ã€€ï¼šçµ‚äº†æ™‚ã«å‰Šé™¤ã™ã‚‹ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°ã‚’ç™»éŒ²ã—ã¾ã™ã€‚
 //------------------------------------------------------------------------------
 PLUGINFW.RegisterTempVar
 {
@@ -608,7 +608,7 @@ PLUGINFW.RegisterTempVar
 
 
 //******************************************************************************
-//”z—ñ‘€ì
+//é…åˆ—æ“ä½œ
 //******************************************************************************
 JOIN
 {
@@ -650,7 +650,7 @@ SPLITEX
 }
 
 //******************************************************************************
-//Œn•Ï”
+//æ™‚åˆ»ç³»å¤‰æ•°
 //******************************************************************************
 year    { GETTIME[0] }
 month   { GETTIME[1] }
@@ -693,7 +693,7 @@ ghostuptime
 }
 
 //******************************************************************************
-//ƒƒ‚ƒŠŒn•Ï”
+//ãƒ¡ãƒ¢ãƒªç³»å¤‰æ•°
 //******************************************************************************
 memoryload         { GETMEMINFO[0] }
 memorytotalphys    { GETMEMINFO[1] }

@@ -1,25 +1,25 @@
-// ****�g����****
+// ****使い方****
 // 
-// �֐����̓C�x���g�����̂܂܂ł��BSHIORI/3.0�e���v���[�g�̂悤�ɁA
-// ������擾������On_�����悤�Ȃ��Ƃ͂���܂���B
+// 関数名はイベント名そのままです。SHIORI/3.0テンプレートのように、
+// 文字列取得時頭にOn_がつくようなことはありません。
 // 
-// �l��Ԃ��Ƃ��̓��e��SakuraScript�Ƃ��Ď��s���܂�
-// �ȉ��̕ϐ��ɑ������ƁA����𐧌�ł��܂��B
+// 値を返すとその内容をSakuraScriptとして実行します
+// 以下の変数に代入すると、動作を制御できます。
 //
 //   res_event , res_reference[0]...[n]
-//     �w�肵���C�x���g��Reference���Ŕ������܂��Breference�͏ȗ���
+//     指定したイベントをReferenceつきで発生します。referenceは省略可
 //
 //   res_target
-//     �X�N���v�g��C�x���g���ǂ̃S�[�X�g�ɑ��邩���w�肵�܂��B
-//     Sakura�����w�肵�Ă��������B�܂��A__SYSTEM_ALL_GHOST__�őS�N�����S�[�X�g�ɒʒm���܂��B
-//     �ȗ�����Ɓu�v���O�C�����j���[�����s�����S�[�X�g�v�ɑ���܂�
+//     スクリプトやイベントをどのゴーストに送るかを指定します。
+//     Sakura名を指定してください。また、__SYSTEM_ALL_GHOST__で全起動中ゴーストに通知します。
+//     省略すると「プラグインメニューを実行したゴースト」に送ります
 //
 //   res_marker
-//     �o���[���̃}�[�J�[(���ɏ������o��X�e�[�^�X�\��)�ɕ\�����镶�����w��ł��܂��B
+//     バルーンのマーカー(下に小さく出るステータス表示)に表示する文字を指定できます。
 //
 
 //-------------------------------------------------------
-// �S�[�X�g����A�N�Z�X�ł���C�x���g
+// ゴーストからアクセスできるイベント
 OnMenuExec
 {
 	BalloonMenuIndex = 0
@@ -37,7 +37,7 @@ OnBalloonSelectMenuOpen
 }
 
 //-------------------------------------------------------
-// �S�[�X�g�֒ʒm�����C�x���g
+// ゴーストへ通知されるイベント
 PLUGINUTIL.BalloonMenuExec
 {
 	res_event        = 'OnBalloonSelectMenu'
@@ -64,7 +64,7 @@ PLUGINUTIL.Menu_CANCEL
 }
 
 //-------------------------------------------------------
-// �v���p�e�B�擾�E�Ǝ��C�x���g�֐�
+// プロパティ取得・独自イベント関数
 GetBalloonSize
 {
 	'\b[2]\![get,property/
@@ -86,19 +86,19 @@ OnPLUGINUTIL.BalloonChange
 }
 
 //-------------------------------------------------------
-// �o���[���u���C�N���t�b�N
+// バルーンブレイクもフック
 OnBalloonBreak
 {
 	PLUGINUTIL.Menu_CANCEL
 }
 
 //-------------------------------------------------------
-// �o���[���\������
+// バルーン表示処理
 ShowBalloonView
 {
 	_page   = _argv[0]
 	_width  = _argv[1]; if _width  < 100 { _width  = 100 }
-	_height = _argv[2]; if _height < 100 { _height = 100 }//100�ȉ��Ƃ����蓾�Ȃ��B
+	_height = _argv[2]; if _height < 100 { _height = 100 }//100以下とかあり得ない。
 
 	_ret    = ''
 	_max    = ARRAYSIZE(PLUGINUTIL.installedballoon_path)
@@ -164,7 +164,7 @@ ShowBalloonView
 }
 
 //-------------------------------------------------------
-// �o�[�W����
+// バージョン
 version
 {
 	'BalloonSelector/1.7'

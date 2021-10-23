@@ -1,4 +1,4 @@
-charset,Shift_JIS
+charset,UTF-8
 type,plugin
 name,BalloonSelector
 directory,balloonselector
