@@ -194,9 +194,6 @@ request
 	var.req.key   = IARRAY
 	var.req.value = IARRAY
 	
-	_linenum = 0
-	_idparsed = 0
-	
 	status = ''
 	
 	while _lineend > _linestart {
@@ -208,8 +205,6 @@ request
 		if _lineend <= _linestart {
 			break
 		}
-		
-		_linenum += 1
 		
 		_lin = SUBSTR(_reqdata,_linestart,(_lineend - _linestart))
 				
@@ -233,7 +228,6 @@ request
 				PLUGINFW.MakeEmptyResponse(PLUGINFW.Eventid)
 				return
 			}
-			_idparsed = 1
 		}
 		// セキュリティレベル="External"なら即返る
 		elseif _key == 'SecurityLevel' {
@@ -282,7 +276,7 @@ OnRequest
 	case REQ.COMMAND {
 	when "NOTIFY" {
 		// NOTIFYリクエスト
-		_result = PLUGINFW.RaiseIDEvent
+		void PLUGINFW.RaiseIDEvent
 		"PLUGIN/2.0 200 OK%(C_CRLF)Charset: %(S_CHARSET)%(C_CRLF2)"
 	}
 
@@ -567,7 +561,7 @@ PLUGINFW.MakeValueexVariable
 	_sz                   = ARRAYSIZE(var.lib.key)
 	for _i = 0; _i < _sz; _i++ {
 		if SUBSTR(_keyname = var.lib.key[_i], 0, 5) == "Value" {
-			_dmy = LETTONAME(_varname = "valueex%(SUBSTR(_keyname, 5, 3))", var.lib.value[_i])
+			LETTONAME(_varname = "valueex%(SUBSTR(_keyname, 5, 3))", var.lib.value[_i])
 			PLUGINFW.ValueexList ,= _varname
 		}
 	}
