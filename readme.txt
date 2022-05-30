@@ -77,3 +77,4 @@ Argument0　　バルーンを表示するページ番号(Zero Origin)
 2022/04/02  Ver2.0  yaya.dll差し替え
                     システム辞書微修正
 2022/04/23  Ver2.1  yaya.dll差し替え
+2022/05/30  Ver2.2  yaya.dll差し替え
