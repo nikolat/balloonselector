@@ -1,1 +1,7 @@
 yaya_plugin2.dic
+messagetxt\classical-chinese.txt
+messagetxt\english.txt
+messagetxt\japanese.txt
+messagetxt\simplified-chinese.txt
+messagetxt\traditional-chinese.txt
+messagetxt\
