@@ -5,6 +5,7 @@
 readme.md
 ReadMe.md
 README.md
+LICENSE
 updates.txt
 updates2.dau
 
