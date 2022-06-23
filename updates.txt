@@ -2,10 +2,10 @@ charset,UTF-8
 file,delete.txtc947a964aa3f1aad8efb52325b570421size=178date=2012-12-21T00:00:00
 file,descript.txte579bd497d85bc486b9417266b8fc9eesize=276date=2012-12-21T00:00:00
 file,install.txt718f0a5195ab30077f507a0661492636size=73date=2012-12-21T00:00:00
-file,readme.txtd1a4721f3777afcd9b3f15c229ca851asize=3412date=2012-12-21T00:00:00
-file,system/yaya_plugin2.dicf6c65347be07c0bbe5c41608adcad7d1size=18603date=2012-12-21T00:00:00
-file,system_config.txt07bba11d2a8257192970c0c2adeabcb8size=658date=2012-12-21T00:00:00
-file,yaya.dll8b942fa13ee4f4e2892348edde12964fsize=872448date=2012-12-21T00:00:00
-file,yaya.txtfbb722b3f332ec748a7779379a56d903size=2153date=2012-12-21T00:00:00
-file,yaya_plugin_main.txt826702a1f9c4a917fe98b4f29918757fsize=5154date=2012-12-21T00:00:00
+file,readme.txt9d9cf035bd328c139ba7f57cb74f1041size=3510date=2012-12-21T00:00:00
+file,system/yaya_plugin2.dic98a63ec3014226a94b17e12fee931f44size=20616date=2012-12-21T00:00:00
+file,system_config.txtaa1b07335eb2108b20641bfbb4ab6e36size=606date=2012-12-21T00:00:00
+file,yaya.dll1737e66621f9c1645cd62699d78e85d8size=880640date=2012-12-21T00:00:00
+file,yaya.txtf835d1923e1073d9cbd70e52f27e7fe0size=2342date=2012-12-21T00:00:00
+file,yaya_plugin_main.txt43c37ca055191e93ec791ad919547db9size=5154date=2012-12-21T00:00:00
 file,yaya_plugin_util.dicad9c5caa09c050781a5ad075388af823size=5297date=2012-12-21T00:00:00
