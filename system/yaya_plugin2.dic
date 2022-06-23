@@ -1,23 +1,7 @@
 //******************************************************************************
-/*
-PLUGIN/2.0制御スクリプト for YAYA
-履歴
-ver. date     noted
-1.0  20080422 Initial Impl. by C.Ponapalt
-1.1  20080511 ScriptOption / EventOption
-*/
+// PLUGIN/2.0制御スクリプト for YAYA
 //******************************************************************************
-
-
-//------------------------------------------------------------------------------
-//以下のdefineは基本的に弄らないで下さい
-//------------------------------------------------------------------------------
-
-// 文字/文字列定数
-#define	C_CRLF2		C_CRLF+C_CRLF					/* 改行コードx2   */
-#define	C_CRLF		CHR(0xd)+CHR(0xa)				/* 改行コード     */
-#define	C_BYTE1		CHR(0x1)						/* バイト値1      */
-
+#define	PLUGINFW.REQUEST_LINES_LIMIT	0
 //******************************************************************************
 // load
 //******************************************************************************
@@ -28,39 +12,36 @@ ver. date     noted
 //------------------------------------------------------------------------------
 load
 {
-	REQ.COMMAND   = "LOAD"
-	REQ.PROTOCOL  = "AYA/5.0"
-	var.req.key   = (IARRAY, "Path")
+	// 文字/文字列定数
+	C_CRLF2 = CHR(0xd,0xa,0xd,0xa)
+	C_CRLF = CHR(0xd,0xa)
+
+	REQ.COMMAND   = 'LOAD'
+	REQ.PROTOCOL  = 'AYA/5.0'
+	var.req.key   = (IARRAY, 'Path')
 	var.req.value = (IARRAY, _argv[0])
-	
+	var.req.rawvalue = (IARRAY,_argv[0])
+
+	PLUGINFW.Path = _argv[0]
+
+	var.lib.key = IARRAY
+	var.lib.value = IARRAY
 	var.lib.result = ''
 	
 	// 毎回起動時の初期化
 	SAORI.DllList         = IARRAY
-	basewarename          = ''
-	basewarenameex        = ''
 	sender                = ''
-	status                = ''
 
 	S_CHARSET = GETSETTING('charset.output')
-	
-	tempvarname = IARRAY
-	
+
+	PLUGINFW.tempvarname = IARRAY
+
+	PLUGINFW.InitAdditionalReturn()
+
 	//推奨
-	_a = GETFUNCLIST('OnSystemLoad')
-	_n = ARRAYSIZE(_a)
-	for _i = 0 ; _i < _n ; _i++
-	{
-		EVAL(_a[_i])
-	}
-	
+	AyaLoad.FuncEnumExec('OnSystemLoad','ascending')
 	//互換
-	_a = GETFUNCLIST('OnPluginLoad')
-	_n = ARRAYSIZE(_a)
-	for _i = 0 ; _i < _n ; _i++
-	{
-		EVAL(_a[_i])
-	}
+	AyaLoad.FuncEnumExec('OnPluginLoad','ascending')
 }
 
 //******************************************************************************
@@ -73,65 +54,55 @@ load
 //------------------------------------------------------------------------------
 unload
 {
-	REQ.COMMAND   = "UNLOAD"
-	REQ.PROTOCOL  = "AYA/5.0"
+	REQ.COMMAND   = 'UNLOAD'
+	REQ.PROTOCOL  = 'AYA/5.0'
 	var.req.key   = IARRAY
 	var.req.value = IARRAY
+	var.req.rawvalue = IARRAY
 
 	//互換
-	_a = GETFUNCLIST('OnPluginUnload')
-	_n = ARRAYSIZE(_a)
-	for _i = _n-1 ; _i >= 0 ; _i--
-	{
-		EVAL(_a[_i])
-	}
-
+	AyaLoad.FuncEnumExec('OnPluginUnload','descending')
 	//推奨
-	_a = GETFUNCLIST('OnSystemUnload')
-	_n = ARRAYSIZE(_a)
-	for _i = _n-1 ; _i >= 0 ; _i--
-	{
-		EVAL(_a[_i])
-	}
+	AyaLoad.FuncEnumExec('OnSystemUnload','descending')
 
 	// 保存する必要のない変数を削除
-	ERASEVAR('REQ.COMMAND'  )
-	ERASEVAR('REQ.PROTOCOL' )
-	ERASEVAR('var.req.key'  )
-	ERASEVAR('var.req.value')
+	_var = <<'
+REQ.COMMAND
+REQ.PROTOCOL
+var.req.key
+var.req.value
+var.req.rawvalue
+LIB.PROTOCOL
+LIB.STATUSCODE
+var.lib.key
+var.lib.value
+var.lib.result
+SAORI.DllList
+sender
+S_CHARSET
+res_reference
+res_marker
+res_event
+res_event_option
+res_script_option
+res_target
+PLUGINFW.Path
+PLUGINFW.Eventid
+PLUGINFW.SecurityLevel
+C_CRLF2
+C_CRLF
+'>>
 
-	ERASEVAR('LIB.PROTOCOL'  )
-	ERASEVAR('LIB.STATUSCODE')
-	ERASEVAR('var.lib.key'   )
-	ERASEVAR('var.lib.value' )
-	ERASEVAR('var.lib.result')
+	ERASEVAR(SPLIT(_var,C_CRLF))
 
-	ERASEVAR('PLUGINFW.Eventid'    )
-	ERASEVAR('SAORI.DllList')
-
-	ERASEVAR('basewarename')
-	ERASEVAR('basewarenameex')
-	ERASEVAR('sender')
-	ERASEVAR('status')
-	
-	ERASEVAR('S_CHARSET')
-	
-	ERASEVAR('res_securitylevel')
-	ERASEVAR('res_reference')
-	ERASEVAR('res_marker')
-	ERASEVAR('res_event')
-	ERASEVAR('res_event_option')
-	ERASEVAR('res_script_option')
-	ERASEVAR('res_target')
-
-	_n = ARRAYSIZE(tempvarname)
-	for _i = 0 ; _i < _n ; _i++ {
-		ERASEVAR("%(tempvarname[_i])")
+	if ARRAYSIZE(PLUGINFW.tempvarname) {
+		ERASEVAR(PLUGINFW.tempvarname)
 	}
-	ERASEVAR('tempvarname')
-	
-	PLUGINFW.ClearReferenceVariable
-	PLUGINFW.ClearValueexVariable
+	ERASEVAR('PLUGINFW.tempvarname')
+
+	PLUGINFW.ClearReferenceVariable()
+	PLUGINFW.ClearValueexVariable()
+	PLUGINFW.ClearAdditionalReturnVariable()
 }
 
 //------------------------------------------------------------------------------
@@ -143,13 +114,29 @@ AyaTest.Eval
 	_array = SPLIT(_argv[0],C_CRLF)
 	_result = ''
 	_n = ARRAYSIZE(_array)
-	
+
 	for _i = 0 ; _i < _n ; _i++ {
 		if _array[_i] {
 			_result += EVAL(_array[_i])
 		}
 	}
 	_result
+}
+
+//------------------------------------------------------------------------------
+//関数名：AyaLoad.FuncEnumExec
+//機能　：関数リストを作成しソートして実行
+//引数　：0=イベント 1=ソート順(ascending,descending)
+//------------------------------------------------------------------------------
+AyaLoad.FuncEnumExec : void
+{
+	_a = GETFUNCLIST(_argv[0])
+	_a = ASORT('string,' + _argv[1],_a)
+
+	_n = ARRAYSIZE(_a)
+	for _i = 0 ; _i < _n ; _i++ {
+		EVAL(_a[_i])
+	}
 }
 
 
@@ -166,16 +153,16 @@ request
 	//For TEST
 	//test(_argv[0])
 	//return
-	
-	if SUBSTR(_argv[0],0,3) == '?? ' { //玉でのテスト用
+
+	if SUBSTR(_argv[0],0,3) == '?? ' {//玉でのテスト用
 		'!! ' + JOIN(AyaTest.Eval(ERASE(_argv[0],0,3)),',')
 		return
 	}
-	
+
 	_reqdata = _argv[0]
 	_linestart = 0
 	_lineend = STRSTR(_reqdata, C_CRLF, _linestart)
-	
+
 	if _lineend <= 0 {
 		//1行目すらない！
 		"PLUGIN/2.0 400 Bad Request%(C_CRLF)Charset: %(S_CHARSET)%(C_CRLF2)"
@@ -184,88 +171,96 @@ request
 	_lin = SUBSTR(_reqdata,_linestart,(_lineend - _linestart))
 
 	// リクエスト種別とプロトコル名の取得　エラーなら400
-	REQ.COMMAND  = _lin[0," PLUGIN"]
-	REQ.PROTOCOL = "PLUGIN" + _lin[1," PLUGIN"]
+	REQ.COMMAND  = _lin[0,' PLUGIN']
+	REQ.PROTOCOL = 'PLUGIN' + _lin[1,' PLUGIN']
 
 	// リクエストヘッダの取得
 	var.req.key   = IARRAY
 	var.req.value = IARRAY
-	
-	status = ''
-	
+	var.req.rawvalue = IARRAY
+
+	_linenum = 0
+	_idparsed = 0
+
+	PLUGINFW.Eventid=''
+	PLUGINFW.SecurityLevel='Internal'//互換性のためデフォルトはInternal
+
 	while _lineend > _linestart {
 		//行分割
 		_linestart = _lineend + 2
 		_lineend = STRSTR(_reqdata, C_CRLF, _linestart)
-		
+
 		//空行もしくはみつからなかった
 		if _lineend <= _linestart {
 			break
 		}
-		
+
+		_linenum += 1
+		if PLUGINFW.REQUEST_LINES_LIMIT {
+			if _linenum > PLUGINFW.REQUEST_LINES_LIMIT {
+				if _idparsed {
+					break
+				}
+			}
+		}
+
 		_lin = SUBSTR(_reqdata,_linestart,(_lineend - _linestart))
-				
+
 		// キーと値を取得
 		_len = STRLEN(_lin)
-		_pos = STRSTR(_lin,": ",0)
+		_pos = STRSTR(_lin,': ',0)
 		var.req.key ,= (_key = SUBSTR(_lin,0,_pos))
 		_value       = SUBSTR(_lin,(_pos + 2),(_len - _pos - 2))
-		
+
 		if var.req.key == '' {
 			break
 		}
 
 		// イベントID名称を取得
-		if _key == "Charset" {
+		if _key == 'Charset' {
 			if S_CHARSET != _value {
 				void SETSETTING('charset.output',_value)
 				S_CHARSET = _value
 			}
 		}
-		elseif _key == "ID" {
+		elseif _key == 'ID' {
 			PLUGINFW.Eventid = _value
 			// ハンドラが無い場合は即返る
 			if !ISFUNC(PLUGINFW.Eventid) {
 				PLUGINFW.MakeEmptyResponse(PLUGINFW.Eventid)
+				--
+				C_CRLF
+
 				return
 			}
+			_idparsed = 1
 		}
-		// セキュリティレベル="External"なら即返る
+		// セキュリティレベル
 		elseif _key == 'SecurityLevel' {
-			if _value == 'External' {
-				"PLUGIN/2.0 204 No Content%(C_CRLF)Charset: %(S_CHARSET)%(C_CRLF2)"
-				return
-			}
+			PLUGINFW.SecurityLevel = _value
 		}
-		// ベースウェア名取得
+		// Sender取得
 		elseif _key == 'Sender' {
-			if basewarenameex == '' {
-				basewarenameex = _value
-			}
-			basewarename = _value
 			sender = _value
 		}
-		//Status
-		elseif _key == 'Status' {
-			status = _value
+
+		//Externalなら204で返る
+		if PLUGINFW.SecurityLevel == 'External' {
+			PLUGINFW.MakeEmptyResponse()
+			--
+			C_CRLF
+
+			return
 		}
 
 		// キーと値を記憶
-		var.req.value ,= TOAUTOEX(_value)
+		var.req.rawvalue ,= _value
+		var.req.value ,= TOAUTO(_value, 1)
 	}
-	
+
 	OnRequest
 }
-
-TOAUTOEX
-{
-	_v = _argv[0]
-	if TOSTR(TOAUTO(_v)) == _v {
-		TOAUTO(_v)
-		return
-	}
-	_v
-}
+TOAUTOEX{ TOAUTO(_argv[0], 1) }
 
 //------------------------------------------------------------------------------
 //関数名：OnRequest
@@ -275,42 +270,81 @@ OnRequest
 {
 	// コマンド別に処理分岐
 	case REQ.COMMAND {
-	when "NOTIFY" {
-		// NOTIFYリクエスト
-		void PLUGINFW.RaiseIDEvent
-		"PLUGIN/2.0 200 OK%(C_CRLF)Charset: %(S_CHARSET)%(C_CRLF2)"
-	}
-
-	when "GET" {
-		// GETリクエスト
-		_result = PLUGINFW.RaiseIDEvent
-		_refheader = PLUGINFW.AssembleOptionalHeader
-		
-		if _refheader == '' && _result == '' {
-			PLUGINFW.MakeEmptyResponse(PLUGINFW.Eventid)
+		when 'NOTIFY' {
+			// NOTIFYリクエスト
+			void PLUGINFW.RaiseIDEvent()
+			"PLUGIN/2.0 204 No Content%(C_CRLF)Charset: %(S_CHARSET)%(C_CRLF)"
 		}
-		else {
-			"PLUGIN/2.0 200 OK%(C_CRLF)Sender: AYA%(C_CRLF)Charset: %(S_CHARSET)%(C_CRLF)"
-			--
-			if _refheader != '' {
-				_refheader
+
+		when 'GET' {
+			// GETリクエスト
+			_result = PLUGINFW.RaiseIDEvent()
+			if _result == '' {
+				PLUGINFW.MakeEmptyResponse(PLUGINFW.Eventid)
 			}
-			--
-			if _result != '' {
+			else {
+				"PLUGIN/2.0 200 OK%(C_CRLF)Sender: AYA%(C_CRLF)Charset: %(S_CHARSET)%(C_CRLF)"
+				--
 				if PLUGINFW.Eventid == 'version'
 					"Value: %(_result)%(C_CRLF)"
 				else
 					"Script: %(_result)%(C_CRLF)"
+				--
+				PLUGINFW.AssembleOptionalHeader()
 			}
-			--
-			C_CRLF
 		}
+
+		others
+			// 未知のリクエスト
+			"PLUGIN/2.0 400 Bad Request%(C_CRLF)"
 	}
 
-	others
-		// 未知のリクエスト
-		"PLUGIN/2.0 400 Bad Request%(C_CRLF2)"
-	}
+	--
+	PLUGINFW.GetAdditionalReturns()
+	--
+	C_CRLF
+}
+
+//------------------------------------------------------------------------------
+//関数名：PLUGINFW.InitAdditionalReturn
+//機能　：追加ヘッダ用変数を初期化します
+//------------------------------------------------------------------------------
+PLUGINFW.InitAdditionalReturn : void
+{
+	PLUGINFW.AdditionalReturn.String = ''
+}
+
+//------------------------------------------------------------------------------
+//関数名：PLUGINFW.PushAdditionalReturn
+//機能　：ヘッダを追加します (設定はリクエストごとにリセットされます)
+//引数　：_argv[0] ヘッダ名  _argv[1] 値
+//------------------------------------------------------------------------------
+PLUGINFW.PushAdditionalReturn : void
+{
+	_key="%(_argv[0]): "
+	_argv[0]=IARRAY
+	PLUGINFW.AdditionalReturn.String += _key+TOSTR(_argv)+C_CRLF
+}
+
+//------------------------------------------------------------------------------
+//関数名：PLUGINFW.ClearAdditionalReturnVariable
+//機能　：追加ヘッダ用変数を削除します
+//------------------------------------------------------------------------------
+PLUGINFW.ClearAdditionalReturnVariable : void
+{
+	ERASEVAR('PLUGINFW.AdditionalReturn.String')
+}
+
+//------------------------------------------------------------------------------
+//関数名：PLUGINFW.GetAdditionalReturns
+//機能　：追加ヘッダを展開します
+//返値　：追加すべきヘッダ文字列 最後は必ず改行で終わる
+//------------------------------------------------------------------------------
+PLUGINFW.GetAdditionalReturns
+{
+	_t=PLUGINFW.AdditionalReturn.String
+	PLUGINFW.AdditionalReturn.String = ''
+	_t
 }
 
 //------------------------------------------------------------------------------
@@ -320,33 +354,33 @@ OnRequest
 PLUGINFW.AssembleOptionalHeader
 {
 	_result = ''
-	if res_target != "" {
+	if res_target != '' {
 		_result += "Target: %(res_target)%(C_CRLF)"
 		ERASEVAR('res_target')
 	}
 	
-	if res_event != "" {
+	if res_event != '' {
 		_result += "Event: %(res_event)%(C_CRLF)"
 		ERASEVAR('res_event')
 	}
-	if res_event_option != "" {
+	if res_event_option != '' {
 		_result += "EventOption: %(res_event_option)%(C_CRLF)"
 		ERASEVAR('res_event_option')
 	}
-	if res_script_option != "" {
+	if res_script_option != '' {
 		_result += "ScriptOption: %(res_script_option)%(C_CRLF)"
 		ERASEVAR('res_script_option')
 	}
 	
 	_n = ARRAYSIZE(res_reference)
 	for _i = 0; _i < _n ; _i++ {
-		if res_reference[_i] != "" {
+		if res_reference[_i] != '' {
 			_result += "Reference%(_i): %(res_reference[_i])%(C_CRLF)"
 		}
 	}
 	ERASEVAR('res_reference')
 	
-	if res_marker != "" {
+	if res_marker != '' {
 		_result += "Marker: %(res_marker)%(C_CRLF)"
 		ERASEVAR('res_marker')
 	}
@@ -519,7 +553,7 @@ PLUGINFW.RequestLib
 	var.lib.key   = IARRAY
 	var.lib.value = IARRAY
 	var.lib.result = ''
-	
+
 	_skip = 1
 	foreach _lines; _lin {
 		// 1行目は飛ばす
@@ -534,12 +568,12 @@ PLUGINFW.RequestLib
 		var.lib.key ,= (_key = SUBSTR(_lin, 0, _pos))
 		_value       = SUBSTR(_lin, _pos + 2, _len - _pos - 2)
 		_valuecv     = ''
-		
+
 		if var.lib.key == '' {
 			break
 		}
 
-		_valuecv = TOAUTOEX(_value)
+		_valuecv = TOAUTO(_value, 1)
 		
 		var.lib.value ,= _valuecv
 		if _key == 'Result' {
@@ -554,13 +588,13 @@ PLUGINFW.RequestLib
 //------------------------------------------------------------------------------
 PLUGINFW.MakeValueexVariable
 {
-	PLUGINFW.ValueexList = IARRAY
-	_sz                   = ARRAYSIZE(var.lib.key)
+	PLUGINFW.ClearValueexVariable()
+	valueex = IARRAY()
+	_sz = ARRAYSIZE(var.lib.key)
 	for _i = 0; _i < _sz; _i++ {
-		if SUBSTR(_keyname = var.lib.key[_i], 0, 5) == "Value" {
+		if SUBSTR(_keyname = var.lib.key[_i], 0, 5) == 'Value' {
 			_varname = "valueex%(SUBSTR(_keyname, 5, 3))"
 			LETTONAME(_varname, var.lib.value[_i])
-			PLUGINFW.ValueexList ,= _varname
 			valueex[TOINT(SUBSTR(_keyname, 5, 3))] = var.lib.value[_i]
 		}
 	}
@@ -572,8 +606,12 @@ PLUGINFW.MakeValueexVariable
 //------------------------------------------------------------------------------
 PLUGINFW.ClearValueexVariable
 {
-	foreach PLUGINFW.ValueexList; _exname { ERASEVAR(_exname) }
-	ERASEVAR('PLUGINFW.ValueexList')
+	_valueexList = GETVARLIST('valueex')
+	foreach _valueexList; _exname {
+		if RE_MATCH(_exname, 'valueex[0-9]+') {
+			ERASEVAR(_exname)
+		}
+	}
 	ERASEVAR('valueex')
 }
 
@@ -595,10 +633,22 @@ PLUGINFW.SaoriUnloadAll
 PLUGINFW.RegisterTempVar
 {
 	for _i = 0 ; _i < _argc ; _i++ {
-		if ASEARCH(_argv[_i],tempvarname) < 0 {
-			tempvarname ,= _argv[_i]
+		if ASEARCH(_argv[_i],PLUGINFW.tempvarname) < 0 {
+			PLUGINFW.tempvarname ,= _argv[_i]
 		}
 	}
+}
+
+//------------------------------------------------------------------------------
+//　関数名：PLUGINFW.RemoveAllTags
+//　機能　：全てのさくらスクリプトタグを消去する。
+//　引数　：argv0＝テキスト
+//------------------------------------------------------------------------------
+PLUGINFW.RemoveAllTags
+{
+	_text = RE_REPLACE(_argv[0],'\\_{0,2}[a-zA-Z0-9*!&\-+](\d|\[("([^"]|\\")+?"|([^\]]|\\\])+?)+?\])?','')
+	_text = REPLACE(_text,'\\','\')
+	_text
 }
 
 
@@ -611,10 +661,10 @@ JOIN
 		_argv[0]
 		return
 	}
-	
+
 	_delim = _argv[_argc - 1]
 	_argc--
-	
+
 	_text = _argv[0]
 	for _i = 1 ; _i < _argc ; _i++ {
 		_text += _delim
