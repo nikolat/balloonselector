@@ -173,5 +173,5 @@ ShowBalloonView
 // バージョン
 version
 {
-	'BalloonSelector/2.2'
+	'BalloonSelector/2.3'
 }
