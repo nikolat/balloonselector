@@ -18,23 +18,23 @@ load
 
 	REQ.COMMAND   = 'LOAD'
 	REQ.PROTOCOL  = 'AYA/5.0'
-	var.req.key   = (IARRAY, 'Path')
-	var.req.value = (IARRAY, _argv[0])
-	var.req.rawvalue = (IARRAY,_argv[0])
+	var.req.key   = (IARRAY(), 'Path')
+	var.req.value = (IARRAY(), _argv[0])
+	var.req.rawvalue = (IARRAY(),_argv[0])
 
 	PLUGINFW.Path = _argv[0]
 
-	var.lib.key = IARRAY
-	var.lib.value = IARRAY
+	var.lib.key = IARRAY()
+	var.lib.value = IARRAY()
 	var.lib.result = ''
 	
 	// 毎回起動時の初期化
-	SAORI.DllList         = IARRAY
+	SAORI.DllList         = IARRAY()
 	sender                = ''
 
 	S_CHARSET = GETSETTING('charset.output')
 
-	PLUGINFW.tempvarname = IARRAY
+	PLUGINFW.tempvarname = IARRAY()
 
 	PLUGINFW.InitAdditionalReturn()
 
@@ -56,9 +56,9 @@ unload
 {
 	REQ.COMMAND   = 'UNLOAD'
 	REQ.PROTOCOL  = 'AYA/5.0'
-	var.req.key   = IARRAY
-	var.req.value = IARRAY
-	var.req.rawvalue = IARRAY
+	var.req.key   = IARRAY()
+	var.req.value = IARRAY()
+	var.req.rawvalue = IARRAY()
 
 	//互換
 	AyaLoad.FuncEnumExec('OnPluginUnload','descending')
@@ -175,9 +175,9 @@ request
 	REQ.PROTOCOL = 'PLUGIN' + _lin[1,' PLUGIN']
 
 	// リクエストヘッダの取得
-	var.req.key   = IARRAY
-	var.req.value = IARRAY
-	var.req.rawvalue = IARRAY
+	var.req.key   = IARRAY()
+	var.req.value = IARRAY()
+	var.req.rawvalue = IARRAY()
 
 	_linenum = 0
 	_idparsed = 0
@@ -322,7 +322,7 @@ PLUGINFW.InitAdditionalReturn : void
 PLUGINFW.PushAdditionalReturn : void
 {
 	_key="%(_argv[0]): "
-	_argv[0]=IARRAY
+	_argv[0]=IARRAY()
 	PLUGINFW.AdditionalReturn.String += _key+TOSTR(_argv)+C_CRLF
 }
 
@@ -427,7 +427,7 @@ PLUGINFW.MakeEmptyResponse
 //------------------------------------------------------------------------------
 PLUGINFW.MakeReferenceVariable : void
 {
-	reference               = IARRAY
+	reference               = IARRAY()
 	_sz                     = ARRAYSIZE(var.req.key)
 	for _i = 0; _i < _sz; _i++ {
 		if SUBSTR(_keyname = var.req.key[_i], 0, 9) == "Reference" {
@@ -550,8 +550,8 @@ PLUGINFW.RequestLib
 	LIB.STATUSCODE = SUBSTR(_lines[0], _seppos + 1, STRLEN(_lines[0]) - _seppos - 1)
 
 	// レスポンスヘッダの取得
-	var.lib.key   = IARRAY
-	var.lib.value = IARRAY
+	var.lib.key   = IARRAY()
+	var.lib.value = IARRAY()
 	var.lib.result = ''
 
 	_skip = 1
@@ -623,7 +623,7 @@ PLUGINFW.SaoriUnloadAll
 {
 	foreach SAORI.DllList; _saori { UNLOADLIB(_saori) }
 
-	SAORI.DllList = IARRAY
+	SAORI.DllList = IARRAY()
 }
 
 //------------------------------------------------------------------------------
@@ -675,7 +675,7 @@ JOIN
 
 REVERSE
 {
-	_a = IARRAY
+	_a = IARRAY()
 	for _i = 0 ; _i < _argc ; _i++ {
 		_a ,= _argv[_argc-_i-1]
 	}
@@ -693,7 +693,7 @@ SPLITEX
 	_n = ARRAYSIZE(_a)
 	for _i = _n-1 ; _i >= 0 ; _i-- {
 		if _a[_i] == '' {
-			_a[_i] = IARRAY
+			_a[_i] = IARRAY()
 		}
 	}
 	_a
@@ -733,24 +733,24 @@ AVERAGE
 //******************************************************************************
 //時刻系変数
 //******************************************************************************
-year    { GETTIME[0] }
-month   { GETTIME[1] }
-day     { GETTIME[2] }
-weekday { GETTIME[3] }
-hour    { GETTIME[4] }
+year    { GETTIME()[0] }
+month   { GETTIME()[1] }
+day     { GETTIME()[2] }
+weekday { GETTIME()[3] }
+hour    { GETTIME()[4] }
 ampm    { if hour >= 12; 1;   else; 0    }
 hour12  { if ampm; hour - 12; else; hour }
-minute  { GETTIME[5] }
-second  { GETTIME[6] }
+minute  { GETTIME()[5] }
+second  { GETTIME()[6] }
 
-systemuptickcount { GETTICKCOUNT }
+systemuptickcount { GETTICKCOUNT() }
 systemuptime
 {
 	_highcount = GETTICKCOUNT(1)
 	if _highcount > 1
-		GETTICKCOUNT/1000
+		GETTICKCOUNT()/1000
 	else
-		(_highcount*0x40000000 + (GETTICKCOUNT/2))/500
+		(_highcount*0x40000000 + (GETTICKCOUNT()/2))/500
 }
 
 systemupsecond    { PLUGINFW.GetTickInfo[3] }
@@ -759,7 +759,7 @@ systemuphour      { PLUGINFW.GetTickInfo[2] }
 
 PLUGINFW.GetTickInfo
 {
-	_result     = (IARRAY, systemuptime)
+	_result     = (IARRAY(), systemuptime)
 	_result    ,= _result[0]/60
 	_result    ,= _result[1]/60
 	_result    ,= _result[0] - _result[1]*60
@@ -771,9 +771,9 @@ PLUGINFW.GetTickInfo
 //******************************************************************************
 // メモリ系変数
 //******************************************************************************
-memoryload         { GETMEMINFO[0] }
-memorytotalphys    { GETMEMINFO[1] }
-memoryavailphys    { GETMEMINFO[2] }
-memorytotalvirtual { GETMEMINFO[3] }
-memoryavailvirtual { GETMEMINFO[4] }
+memoryload         { GETMEMINFO()[0] }
+memorytotalphys    { GETMEMINFO()[1] }
+memoryavailphys    { GETMEMINFO()[2] }
+memorytotalvirtual { GETMEMINFO()[3] }
+memoryavailvirtual { GETMEMINFO()[4] }
 

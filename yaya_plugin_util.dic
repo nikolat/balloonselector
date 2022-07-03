@@ -13,8 +13,8 @@ OnChoiceSelect
 //-------------------------------------------------------
 balloonpathlist
 {
-	PLUGINUTIL.installedballoon_name = IARRAY
-	PLUGINUTIL.installedballoon_path = IARRAY
+	PLUGINUTIL.installedballoon_name = IARRAY()
+	PLUGINUTIL.installedballoon_path = IARRAY()
 	foreach reference; _fullpath {
 		PLUGINUTIL.StructBalloonList(_fullpath)
 	}
@@ -28,7 +28,7 @@ PLUGINUTIL.StructBalloonList
 {
 	// balloonディレクトリ配下のディレクトリを抽出
 	_filelist = FENUM(_argv[0])
-	_dirlist  = IARRAY
+	_dirlist  = IARRAY()
 	foreach _filelist; _file {
 		if '\' _in_ _file; _dirlist ,= _file
 	}
