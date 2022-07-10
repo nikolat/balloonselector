@@ -255,12 +255,11 @@ request
 
 		// キーと値を記憶
 		var.req.rawvalue ,= _value
-		var.req.value ,= TOAUTO(_value, 1)
+		var.req.value ,= TOAUTOEX(_value)
 	}
 
 	OnRequest
 }
-TOAUTOEX{ TOAUTO(_argv[0], 1) }
 
 //------------------------------------------------------------------------------
 //関数名：OnRequest
@@ -573,7 +572,7 @@ PLUGINFW.RequestLib
 			break
 		}
 
-		_valuecv = TOAUTO(_value, 1)
+		_valuecv = TOAUTOEX(_value)
 		
 		var.lib.value ,= _valuecv
 		if _key == 'Result' {
