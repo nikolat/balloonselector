@@ -6,5 +6,5 @@ filename,yaya.dll
 secondchangeinterval,0
 id,7e78ebb0-7c98-11dd-ad8b-0800200c9a66
 homeurl,https://raw.githubusercontent.com/nikolat/balloonselector/main/
-craftmanurl,http://nikolat.herokuapp.com/
+craftmanurl,https://nikolat.github.io/
 readme.charset,UTF-8

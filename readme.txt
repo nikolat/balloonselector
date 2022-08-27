@@ -2,7 +2,7 @@
 　プラグイン『BalloonSelector』
 
 　作成者　　　　Don
-　一次配布元　　http://nikolat.herokuapp.com/
+　一次配布元　　https://nikolat.github.io/
 
 ■機能
 
